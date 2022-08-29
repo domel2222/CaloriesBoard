@@ -1,31 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCaloriesBoards.Enteties;
 
 namespace MyBoards.Enteties
 {
     public class Meal
     {
-        public int MealId { get; set; }
-        public string State { get; set; }
+        public int Id { get; set; }
+
         public string Area { get; set; }
-        public string IterationWeeklyPath { get; set; }
-        public int Priority { get; set; }
+
+        public string WeeklyPath { get; set; }
+
+        public int Calories { get; set; }
 
         //epic//period of time
         public DateTime? StartDate { get; set; }
+
         public DateTime? EndDate { get; set; }
 
         //issue//Caloric
-        public decimal CaloriesIntake { get; set; }
+        public decimal DailyCaloriesIntake { get; set; }
 
-        //task 
+        //task
         public string Activity { get; set; }
-        public decimal RemainingCalories { get; set; }
 
+        public decimal RemainingCalories { get; set; }
         public string Type { get; set; }
 
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public User Author { get; set;}
+        public Guid AuthorId { get; set;}
+        public List<Tag> Tags { get; set; }
+
+        public StateMeal StateMeal { get; set; }
+        public int StateMealId { get; set; }
     }
 }

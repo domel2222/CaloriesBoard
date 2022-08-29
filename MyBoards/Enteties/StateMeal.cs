@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MyCaloriesBoards.Enteties
 {
-    public class Tag
+    public class StateMeal
     {
         public int Id { get; set; }
         public string Value { get; set; }
-        public List<Meal> Meals { get; set;}
+        public List<Meal> Meals { get; set; } = new List<Meal>();
     }
 }

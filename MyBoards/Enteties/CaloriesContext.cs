@@ -10,6 +10,9 @@ namespace MyCaloriesBoards.Enteties
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<PeriodOfTime> PeriodOfTimes { get; set; }
+        public DbSet<DailyCalories> DailyCaloriesAmount { get; set; }
+        public DbSet<Activity> Activities { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -30,9 +33,6 @@ namespace MyCaloriesBoards.Enteties
             {
                 eb.Property(x => x.Area).HasColumnType("nvarchar(200)");
                 eb.Property(x => x.WeeklyPath).HasColumnName("Weekly_Path");
-                eb.Property(x => x.EndDate).HasPrecision(3);
-                eb.Property(x => x.DailyCaloriesIntake).HasColumnType("decimal(5,2)");
-                eb.Property(x => x.Activity).HasMaxLength(200);
                 eb.Property(x => x.Calories).HasDefaultValue(350);
 
                 eb.HasMany(x => x.Comments)
@@ -59,6 +59,23 @@ namespace MyCaloriesBoards.Enteties
                             mt.Property(x => x.PublicationDate).HasDefaultValueSql("getutcdate()");
                         }
                     );
+            });
+
+            modelBuilder.Entity<PeriodOfTime>(eb =>
+            {
+                eb.Property(x => x.EndDate).HasPrecision(3);
+            });
+
+            modelBuilder.Entity<Activity>(eb =>
+            {
+                eb.Property(x => x.ActivityKind).HasMaxLength(200);
+                eb.Property(x => x.RemainingCalories).HasPrecision(14, 2);
+                eb.Property(x => x.BurnCalories).HasPrecision(14, 2);
+            });
+
+            modelBuilder.Entity<DailyCalories>(eb =>
+            {
+                eb.Property(x => x.DailyCaloriesIntake).HasColumnType("decimal(5,2)");
             });
 
             modelBuilder.Entity<StateMeal>(eb =>

@@ -21,4 +21,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.Run();
+using var scope = app.Services.CreateScope();
+var dbCentext = scope.ServiceProvider.GetService<CaloriesContext>();
+
+var  pendingMigration = dbCentext.Database.GetPendingMigrations();
+if (pendingMigration.Any())
+{
+    dbCentext.Database.Migrate();
+}
+    app.Run();

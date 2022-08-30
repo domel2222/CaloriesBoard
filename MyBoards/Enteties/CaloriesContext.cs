@@ -75,7 +75,7 @@ namespace MyCaloriesBoards.Enteties
 
             modelBuilder.Entity<DailyCalories>(eb =>
             {
-                eb.Property(x => x.DailyCaloriesIntake).HasColumnType("decimal(5,2)");
+                eb.Property(x => x.DailyCaloriesIntake).HasColumnType("decimal(7,2)");
             });
 
             modelBuilder.Entity<StateMeal>(eb =>
@@ -111,6 +111,15 @@ namespace MyCaloriesBoards.Enteties
                   .WithOne(x => x.User)
                   .HasForeignKey<Address>(x => x.UserId);
             });
+
+            modelBuilder.Entity<Tag>()
+                .HasData(
+                    new Tag() { Id = 1, Value = "Brakfast" },
+                    new Tag() { Id = 2, Value = "Lunch" },
+                    new Tag() { Id = 3, Value = "Cocktail" },
+                    new Tag() { Id = 4, Value = "Dinner" },
+                    new Tag() { Id = 5, Value = "Snack" }
+                );
 
             //modelBuilder.Entity<MealTag>()
             //        .HasKey(x => new { x.TagId, x.MealId });

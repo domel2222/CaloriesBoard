@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCaloriesBoards.Enteties;
 
@@ -11,9 +12,10 @@ using MyCaloriesBoards.Enteties;
 namespace MyCaloriesBoards.Migrations
 {
     [DbContext(typeof(CaloriesContext))]
-    partial class CaloriesContextModelSnapshot : ModelSnapshot
+    [Migration("20220830062822_additionalStateMeal")]
+    partial class additionalStateMeal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,33 +198,6 @@ namespace MyCaloriesBoards.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Value = "Brakfast"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Value = "Lunch"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Value = "Cocktail"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Value = "Dinner"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Value = "Snack"
-                        });
                 });
 
             modelBuilder.Entity("MyCaloriesBoards.Enteties.User", b =>
@@ -266,7 +241,7 @@ namespace MyCaloriesBoards.Migrations
                     b.HasBaseType("MyBoards.Enteties.Meal");
 
                     b.Property<decimal>("DailyCaloriesIntake")
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasDiscriminator().HasValue("DailyCalories");
                 });

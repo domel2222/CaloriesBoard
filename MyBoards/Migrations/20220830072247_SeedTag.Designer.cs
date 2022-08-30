@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCaloriesBoards.Enteties;
 
@@ -11,9 +12,10 @@ using MyCaloriesBoards.Enteties;
 namespace MyCaloriesBoards.Migrations
 {
     [DbContext(typeof(CaloriesContext))]
-    partial class CaloriesContextModelSnapshot : ModelSnapshot
+    [Migration("20220830072247_SeedTag")]
+    partial class SeedTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +268,7 @@ namespace MyCaloriesBoards.Migrations
                     b.HasBaseType("MyBoards.Enteties.Meal");
 
                     b.Property<decimal>("DailyCaloriesIntake")
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasDiscriminator().HasValue("DailyCalories");
                 });

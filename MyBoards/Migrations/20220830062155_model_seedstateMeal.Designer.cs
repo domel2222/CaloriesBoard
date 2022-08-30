@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCaloriesBoards.Enteties;
 
@@ -11,9 +12,10 @@ using MyCaloriesBoards.Enteties;
 namespace MyCaloriesBoards.Migrations
 {
     [DbContext(typeof(CaloriesContext))]
-    partial class CaloriesContextModelSnapshot : ModelSnapshot
+    [Migration("20220830062155_model_seedstateMeal")]
+    partial class model_seedstateMeal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

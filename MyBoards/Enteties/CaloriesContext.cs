@@ -87,10 +87,20 @@ namespace MyCaloriesBoards.Enteties
                 eb.HasMany(x => x.Meals)
                     .WithOne(x => x.StateMeal)
                     .HasForeignKey(x => x.StateMealId);
+
+                eb.HasData(new StateMeal() {Id = 1, Value = "To Do" },
+                                new StateMeal() {Id = 2, Value = "Eating"},
+                                new StateMeal() {Id = 3, Value = "Done"}
+                    );
             });
 
             modelBuilder.Entity<Comment>(eb =>
             {
+                eb.HasOne(x => x.Author)
+                    .WithMany(x => x.Comments)
+                    .HasForeignKey(x => x.AuthorId)
+                    .OnDelete(DeleteBehavior.NoAction);
+                
                 eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
                 eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
             });

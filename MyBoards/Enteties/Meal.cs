@@ -29,7 +29,7 @@ namespace MyBoards.Enteties
         public int Id { get; set; }
         public string Area { get; set; }
         public string WeeklyPath { get; set; }
-        public int Calories { get; set; }
+        public int Calories { get; set; } // priority
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public User Author { get; set; }
         public Guid AuthorId { get; set; }

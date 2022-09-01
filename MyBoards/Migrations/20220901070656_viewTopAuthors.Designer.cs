@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCaloriesBoards.Enteties;
 
@@ -11,9 +12,10 @@ using MyCaloriesBoards.Enteties;
 namespace MyCaloriesBoards.Migrations
 {
     [DbContext(typeof(CaloriesContext))]
-    partial class CaloriesContextModelSnapshot : ModelSnapshot
+    [Migration("20220901070656_viewTopAuthors")]
+    partial class viewTopAuthors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,29 +324,6 @@ namespace MyCaloriesBoards.Migrations
                         .HasForeignKey("MyCaloriesBoards.Enteties.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.OwnsOne("MyCaloriesBoards.Enteties.Coordinate", "Coordinate", b1 =>
-                        {
-                            b1.Property<Guid>("AddressId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<decimal?>("Latiitude")
-                                .HasPrecision(18, 7)
-                                .HasColumnType("decimal(18,7)");
-
-                            b1.Property<decimal?>("Longitude")
-                                .HasPrecision(18, 7)
-                                .HasColumnType("decimal(18,7)");
-
-                            b1.HasKey("AddressId");
-
-                            b1.ToTable("Addresses");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AddressId");
-                        });
-
-                    b.Navigation("Coordinate");
 
                     b.Navigation("User");
                 });

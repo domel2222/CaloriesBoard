@@ -16,7 +16,9 @@ builder.Services.Configure<JsonOptions>(option =>
 });
 
 builder.Services.AddDbContext<CaloriesContext>(
-    option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyCaloriesConnectionString"))
+    option => option
+    //.UseLazyLoadingProxies() also add propert virtusal into models for navigation properites
+    .UseSqlServer(builder.Configuration.GetConnectionString("MyCaloriesConnectionString"))
     );
 
 var app = builder.Build();
@@ -227,7 +229,7 @@ app.MapGet("attach", async (CaloriesContext db) =>
         await db.SaveChangesAsync();
     });
 
-app.MapGet("RawSql", async (CaloriesContext db) =>
+app.MapGet("RawSql",  (CaloriesContext db) =>
 {
      
     // without parameters
@@ -260,6 +262,12 @@ app.MapGet("RawSql", async (CaloriesContext db) =>
         HAVING Count(*) > {mealCount}
         "
         ).ToList();
-    return status;
+    return  status;
+});
+
+app.MapGet("dataLaz", async (CaloriesContext db) =>
+{
+    var user = db.Users
+                .FirstOrDefault(x => x.Id == Guid.Parse("E4E81277-99E7-4ACF-CBC5-08DA10AB0E61"));
 });
 app.Run();

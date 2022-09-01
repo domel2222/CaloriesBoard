@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBoards.Enteties;
+using MyCaloriesBoards.Enteties.ViewModels;
 
 namespace MyCaloriesBoards.Enteties
 {
@@ -20,6 +21,7 @@ namespace MyCaloriesBoards.Enteties
         public DbSet<StateMeal> StateMeals { get; set; }
 
         public DbSet<MealTag> MealTag { get; set; }
+        public DbSet<TopAuthor> ViewTopAuthors { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -123,6 +125,18 @@ namespace MyCaloriesBoards.Enteties
                     new Tag() { Id = 5, Value = "Snack" }
                 );
 
+            modelBuilder.Entity<TopAuthor>(eb =>
+            {
+                eb.ToView("View_TopAuthors");
+                eb.HasNoKey();
+            });
+
+            modelBuilder.Entity<Address>()
+                .OwnsOne(a => a.Coordinate, onb =>
+                {
+                    onb.Property(x => x.Latiitude).HasPrecision(18, 7);
+                    onb.Property(x => x.Longitude).HasPrecision(18, 7);
+                });
             //modelBuilder.Entity<MealTag>()
             //        .HasKey(x => new { x.TagId, x.MealId });
         }

@@ -1,4 +1,6 @@
-﻿namespace MyCaloriesBoards.Enteties
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MyCaloriesBoards.Enteties
 {
     public class Address
     {
@@ -9,5 +11,14 @@
         public string PostalCode { get; set; }
         public User User { get; set; }
         public Guid UserId { get; set; }
+        public Coordinate Coordinate { get; set; }
     }
+
+    //[Owned]
+    public class Coordinate
+    {
+        public decimal? Longitude { get; set; }
+        public decimal? Latiitude { get; set; }
+    }
+
 }

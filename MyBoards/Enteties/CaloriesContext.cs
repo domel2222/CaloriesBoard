@@ -19,6 +19,8 @@ namespace MyCaloriesBoards.Enteties
         public DbSet<Address> Addresses { get; set; }
         public DbSet<StateMeal> StateMeals { get; set; }
 
+        public DbSet<MealTag> MealTag { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -99,7 +101,7 @@ namespace MyCaloriesBoards.Enteties
                 eb.HasOne(x => x.Author)
                     .WithMany(x => x.Comments)
                     .HasForeignKey(x => x.AuthorId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientCascade);
                 
                 eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutcdate()");
                 eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();

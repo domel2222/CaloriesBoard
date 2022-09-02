@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using MyBoards.Enteties;
+using MyCaloriesBoards.Dto;
 using MyCaloriesBoards.Enteties;
+using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,7 @@ builder.Services.Configure<JsonOptions>(option =>
 
 builder.Services.AddDbContext<CaloriesContext>(
     option => option
-    //.UseLazyLoadingProxies() also add propert virtusal into models for navigation properites
+    //.UseLazyLoadingProxies() also add property virtual into models for navigation properites
     .UseSqlServer(builder.Configuration.GetConnectionString("MyCaloriesConnectionString"))
     );
 
@@ -269,5 +271,49 @@ app.MapGet("dataLaz", async (CaloriesContext db) =>
 {
     var user = db.Users
                 .FirstOrDefault(x => x.Id == Guid.Parse("E4E81277-99E7-4ACF-CBC5-08DA10AB0E61"));
+});
+
+app.MapGet("pagination",async (CaloriesContext db) =>
+{
+    var filter = "a";
+    string sortBy = "FullName"; // email, null, fullname
+    bool sortByDesc = false;
+    int pageNumber = 1;
+    int pageSize = 10;
+
+
+
+    var query = db.Users
+        .Where(f => filter == null
+                            //|| (f.Email.Contains(filter, StringComparison.OrdinalIgnoreCase) || (f.FullName.Contains(filter, StringComparison.OrdinalIgnoreCase))));   not working in EF 
+                                || (f.Email.ToLower().Contains(filter.ToLower()) || (f.FullName.ToLower().Contains(filter.ToLower()))));
+
+    var totalCount = query.Count();
+
+    if (sortBy != null)
+    {
+        //Expression<Func<User, object>> sortByexpresion = user => user.Email;
+        var columnsSelector = new Dictionary<string, Expression<Func<User, object>>>()
+        {
+            //{"Email",  user => user.Email},
+            //{"FullName",  user => user.FullName},            
+            {nameof(User.Email),  user => user.Email},
+            {nameof(User.FullName),  user => user.FullName},
+        };
+
+        var sortByExpresssion = columnsSelector[sortBy];
+        query = sortByDesc
+                ? query.OrderByDescending(sortByExpresssion)
+                : query.OrderBy(sortByExpresssion);
+                
+    }
+
+    var result = query.Skip(pageSize * (pageNumber - 1))
+                        .Take(pageSize)
+                        .ToList();
+
+    var pageResult = new PageResult<User>(result, totalCount, pageSize, pageNumber);
+
+    return pageResult;
 });
 app.Run();
